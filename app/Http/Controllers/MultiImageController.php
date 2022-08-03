@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\MultiImage;
 use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class MultiImageController extends Controller
 {
@@ -41,6 +42,7 @@ class MultiImageController extends Controller
 
         if($reqimage){
             $images = array_diff($images, array($reqimage));
+            unlink(storage_path(). '/app/public/upload/'.$reqimage);
         }
 
         $row->image = array_values($images);
