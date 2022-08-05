@@ -24,6 +24,10 @@ Route::post('image/store',[MultiImageController::class,'store'])->name('image.st
 
 Route::get('image/remove/{image}/{id}',[MultiImageController::class,'remove'])->name('image.remove');
 
+Route::get('image/edit/{id}',[MultiImageController::class,'edit'])->name('image.edit');
+
+Route::post('image/update/{id}',[MultiImageController::class,'update'])->name('image.update');
+
 Route::prefix('{lang?}')->middleware('locale')->group(function() {
 
     Route::get('me', function () {
