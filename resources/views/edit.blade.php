@@ -44,33 +44,18 @@
                         </g>
                     </svg>
                 </div>
-                <table>
-                    <tr>
-                      <th>Name</th>
-                      <th>Image</th>
-                    </tr>
-                    @if(!empty($images))
-                        @foreach ($images as $image)
-                        <tr>
-                            <td>{{$image->name}}</td>
-                            <td>
-                                @foreach(json_decode($image->image) as $newImage)
-                                    <img src="{{asset('storage/'.$newImage)}}" width="50px" height="50px" alt="">
-                                    <a href="{{route('image.remove',['image'=>$newImage,'id'=>$image->id])}}"><button type="submit">Remove</button></a>
-                                @endforeach
-                            </td>
-                            <td>
-                                <a href="{{route('image.edit',$image->id)}}">Edit</a>
-                            </td>
-                          </tr>
-                        @endforeach
-                    @endif
-                    
-                  </table>
-                
-                <form action="{{route('image.store')}}" method="post" enctype="multipart/form-data">
+                <div>
+                    @foreach(json_decode($imageData->image) as $newImage)
+                    <p>
+                        <img src="{{asset('storage/'.$newImage)}}" width="50px" height="50px" alt="">
+                        {{-- <a href="{{route('image.remove',['image'=>$newImage,'id'=>$image->id])}}"><button type="submit">Remove</button></a> --}}
+                    </p>
+                    @endforeach
+                </div>
+
+                <form action="{{route('image.update',$imageData->id)}}" method="post" enctype="multipart/form-data">
                     @csrf
-                    <input type="text" name="name"> <br>
+                    <input type="text" name="name" value="{{$imageData->name}}">
                     <input type="file" name="image[]" multiple>
                     <button type="submit">Submit</button>
                 </form>

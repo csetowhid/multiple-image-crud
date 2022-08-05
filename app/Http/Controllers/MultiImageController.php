@@ -20,9 +20,8 @@ class MultiImageController extends Controller
         $path = [];
         if ($request->hasFile('image')){
             foreach ($request->image as  $image){
-                $name = time().rand(1,100).'.'.$image->extension();
-                $image->move(storage_path(). '/app/public/upload/', $name);
-                $path[] = $name;
+                $path[] = $image->store('upload');
+                
             }
         }
         MultiImage::create([
@@ -48,5 +47,30 @@ class MultiImageController extends Controller
         $row->image = array_values($images);
         $row->save();
         return back();
+    }
+
+    public function edit($id)
+    {
+        $data['imageData'] = MultiImage::where('id',$id)->first();
+        return view('edit',$data);
+    }
+
+    public function update(Request $request, $id)
+    {
+        $imageData = MultiImage::where('id',$id)->first();
+
+        $image = json_decode($imageData->image);
+
+        if($request->hasFile('image')){
+            foreach($request->file('image') as $file){
+                $image[] = $file->store('upload');
+            }
+        }
+
+        $imageData->name = $request->name;
+        $imageData->image =  $image;
+        $imageData->save();
+        return back();
+
     }
 }
