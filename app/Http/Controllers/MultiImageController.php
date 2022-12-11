@@ -36,12 +36,12 @@ class MultiImageController extends Controller
     public function remove($reqimage,$id)
     {
         $row = MultiImage::where('id',$id)->first();
-        
         $images = json_decode($row->image,true);
 
         if($reqimage){
+            $reqimage = decrypt($reqimage);
             $images = array_diff($images, array($reqimage));
-            unlink(storage_path(). '/app/public/upload/'.$reqimage);
+            unlink(storage_path(). '/app/public/'.$reqimage);
         }
 
         $row->image = array_values($images);
