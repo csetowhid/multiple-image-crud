@@ -56,7 +56,7 @@
                             <td>
                                 @foreach(json_decode($image->image) as $newImage)
                                     <img src="{{asset('storage/'.$newImage)}}" width="50px" height="50px" alt="">
-                                    <a href="{{route('image.remove',['image'=>$newImage,'id'=>$image->id])}}"><button type="submit">Remove</button></a>
+                                    <a href="{{route('image.remove',['image'=>encrypt($newImage),'id'=>$image->id])}}"><button type="submit">Remove</button></a>
                                 @endforeach
                             </td>
                             <td>
